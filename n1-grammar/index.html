@@ -11,19 +11,19 @@
 <style>
 /* Layout: forms reference table on top, sticky filter bar, then a responsive grid of grammar cards (one per video, playlist order). Chinese is hidden until revealed. */
 :root{
-  --bg:#f2f4f8; --surface:#ffffff; --fg:#1b2230; --muted:#5b6578; --line:#dde2ec;
-  --blue:#1f5fd6; --blue-soft:#e7eefc; --ok:#1c8458; --on-blue:#ffffff;
+  --bg:#f6f1e7; --surface:#fffdf8; --fg:#2e2a25; --muted:#7a7066; --line:#e4dccd;
+  --blue:#3f5a8a; --blue-soft:#e9edf4; --ok:#4a7c59; --on-blue:#fffdf8;
   --font:"Noto Sans JP","Hiragino Sans","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0e121a; --surface:#161b26; --fg:#e8ecf4; --muted:#9aa4b8; --line:#262e3d;
-    --blue:#7ba8ff; --blue-soft:#1b2944; --ok:#4cc38a; --on-blue:#0e121a; color-scheme:dark;
+    --bg:#1e1b17; --surface:#28241f; --fg:#ece6da; --muted:#a89e90; --line:#3a342c;
+    --blue:#9db7e0; --blue-soft:#2c3547; --ok:#8bbf9a; --on-blue:#1e1b17; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0e121a; --surface:#161b26; --fg:#e8ecf4; --muted:#9aa4b8; --line:#262e3d;
-  --blue:#7ba8ff; --blue-soft:#1b2944; --ok:#4cc38a; --on-blue:#0e121a; color-scheme:dark;
+  --bg:#1e1b17; --surface:#28241f; --fg:#ece6da; --muted:#a89e90; --line:#3a342c;
+  --blue:#9db7e0; --blue-soft:#2c3547; --ok:#8bbf9a; --on-blue:#1e1b17; color-scheme:dark;
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.7;
@@ -95,10 +95,10 @@ hr{border:0;border-top:1px dashed var(--line);margin:4px 0}
 .opt ruby rt{font-size:.5em;color:var(--muted)}
 .opt:disabled{cursor:default}
 .opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,var(--surface))}
-.opt.wrong{border-color:#d1493f;background:color-mix(in srgb,#d1493f 12%,var(--surface))}
+.opt.wrong{border-color:#b8503f;background:color-mix(in srgb,#b8503f 12%,var(--surface))}
 .expl{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px}
 .expl .verdict{font-weight:700;margin:0 0 6px}
-.expl .verdict.ok{color:var(--ok)}.expl .verdict.no{color:#d1493f}
+.expl .verdict.ok{color:var(--ok)}.expl .verdict.no{color:#b8503f}
 .expl ul{margin:6px 0 0;padding:0;list-style:none}
 .expl li{padding:5px 0;border-bottom:1px dashed var(--line)}
 .expl li:last-child{border-bottom:0}
@@ -110,7 +110,9 @@ hr{border:0;border-top:1px dashed var(--line);margin:4px 0}
 .mode{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
 .sum li{padding:3px 0}
 .hint{color:var(--muted);font-size:13px;margin:0 0 10px}
-.back{margin:0 0 8px;font-size:13px}.back a{color:var(--muted);text-decoration:none}.back a:hover{color:var(--blue)}
+.back{margin:0 0 8px;font-size:13px}
+.back a{color:var(--muted);text-decoration:none}
+.back a:hover{color:var(--blue)}
 </style>
 </head>
 <body>
