@@ -16,8 +16,7 @@ Commit changes and push `master` to publish. If regenerating with Hexo, configur
 ## Hidden Entries
 
 `hidden-entries/index.html` is a small directory of personal websites and tools.
-Add a new `<li>` inside its `entries-list` to add another shortcut; keep the real
-site URL in the card's `href`. Styling lives in `css/hidden-entries.css`.
+Add a new `<li>` inside its `entries-list` to add another shortcut; use the site's URL or its local shortcut in the card's `href`. Styling lives in `css/hidden-entries.css`.
 The directory is linked only from the gray footer link across the static site.
 Keep Hidden Entries out of the header and article menus. If regenerating with
 Hexo, retain the footer link to `/hidden-entries/` and preserve this page and stylesheet.
@@ -27,3 +26,9 @@ Hexo, retain the footer link to `/hidden-entries/` and preserve this page and st
 Hidden Entries contains website shortcuts only; it does not collect access requests.
 The inventory website handles sign-in and approved access. Existing permissions
 and its separate approval service are managed independently of this directory.
+
+## Print shortcut
+
+`print/index.html` redirects `/print/` to Filament Home, with a manual link as fallback.
+Keep it when regenerating Hexo. The inventory application remains hosted on Sites;
+its existing sign-in and sharing permissions still apply.
