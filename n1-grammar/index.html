@@ -49,6 +49,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 input[type=search]{flex:1 1 220px;min-width:0;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
 input[type=search]:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .count{color:var(--muted);font-size:13px;white-space:nowrap}
+#bk{width:100%;margin:6px 0 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);font:12px/1.5 ui-monospace,Menlo,monospace;resize:vertical}
+.bkrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .chip{font-size:13px;padding:4px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer}
@@ -123,6 +125,13 @@ hr{border:0;border-top:1px dashed var(--line);margin:4px 0}
       </tbody>
     </table></div>
     <p class="note" style="margin:0">接续里写"Nの"就是名词后面加「の」，"ナ形＋な"就是ナ形容词后面加「な」，再接这条语法。</p>
+  </details>
+
+  <details class="forms" id="backup">
+    <summary>进度备份：把“看过几遍”搬到别的设备或网址</summary>
+    <p class="note">看过几遍只存在当前浏览器里。在旧页面点“导出”，复制文本框里的内容，到新页面粘贴后点“导入”，每一条会取较大的遍数合并。</p>
+    <textarea id="bk" rows="3" spellcheck="false" aria-label="进度备份文本"></textarea>
+    <div class="bkrow"><button class="btn" id="bkOut" type="button">导出</button><button class="btn" id="bkIn" type="button">导入</button><span class="count" id="bkMsg"></span></div>
   </details>
 
   <div class="bar">
@@ -419,6 +428,12 @@ grid.addEventListener('click',e=>{const a=e.target.dataset.act;if(!a)return;cons
   c.querySelector('.cnt b').textContent=v;c.classList.toggle('done',v>0);updCount()});
 allBtn.addEventListener('click',()=>{showAll=!showAll;allBtn.textContent=showAll?'全部隐藏中文':'全部显示中文';if(!showAll)SHOWN.clear();grid.querySelectorAll('.card').forEach(c=>setShow(c,showAll))});
 document.getElementById('q').addEventListener('input',e=>{q=e.target.value;render()});
+const bk=document.getElementById('bk'),bkMsg=document.getElementById('bkMsg');
+document.getElementById('bkOut').addEventListener('click',()=>{bk.value=JSON.stringify(CNT);bk.select();
+  try{navigator.clipboard.writeText(bk.value).then(()=>{bkMsg.textContent='已导出并复制'},()=>{bkMsg.textContent='已导出，请手动复制'})}catch(e){bkMsg.textContent='已导出，请手动复制'}});
+document.getElementById('bkIn').addEventListener('click',()=>{try{const o=JSON.parse(bk.value);let k=0;
+  for(const [n,v] of Object.entries(o)){const x=+n,y=Math.floor(+v);if(x>=1&&x<=120&&y>0){CNT[x]=Math.max(CNT[x]||0,y);k++}}
+  if(!k)throw 0;save();render();bkMsg.textContent=`已导入 ${k} 条`}catch(e){bkMsg.textContent='格式不对，请粘贴导出的内容'}});
 render();
 </script>
 
