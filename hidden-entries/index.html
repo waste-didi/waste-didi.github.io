@@ -109,16 +109,13 @@
             <input id="request-name" name="name" autocomplete="name" maxlength="80">
             <label for="request-email">ChatGPT 登录邮箱</label>
             <input id="request-email" name="email" type="email" autocomplete="email" required maxlength="254">
-            <button type="submit">打开邮件发送申请</button>
+            <div class="request-honey" aria-hidden="true"><label for="request-website">请留空</label><input id="request-website" name="website" tabindex="-1" autocomplete="off"></div>
+            <button type="submit">提交申请</button>
           </form>
-          <p class="access-note">这个按钮会打开你的邮件应用，需要你亲自发送。申请不会自动授权；收到回复后，用同一邮箱登录库存网站。</p>
-          <p>收件人：<a href="mailto:0x000ddd@gmail.com">0x000ddd@gmail.com</a></p>
-          <div id="request-email-fallback" hidden>
-            <p role="status">请在邮件应用里确认发送。没有打开邮件应用？也可以复制下面的内容，发到上面的邮箱。</p>
-            <label for="request-email-text">申请内容</label>
-            <textarea id="request-email-text" readonly rows="7"></textarea>
-          </div>
-          <noscript><p>请直接发邮件到上面的地址，注明你的 ChatGPT 登录邮箱，以及希望申请「一卷」只读访问。</p></noscript>
+          <p id="request-status" role="status" aria-live="polite" hidden></p>
+          <p class="access-note">直接在线提交，无需打开邮件。申请只对网站主人可见；获批后，用填写的 ChatGPT 邮箱登录库存网站。</p>
+          <p class="access-note"><a href="https://filament-access-ddd.dandandandandu.chatgpt.site/admin">主人管理申请</a></p>
+          <noscript><p><a href="https://filament-access-ddd.dandandandandu.chatgpt.site/">打开在线申请页</a>（需要启用 JavaScript）。</p></noscript>
         </div>
       </details>
     </li>
@@ -169,7 +166,7 @@
 
 
 <script src="../js/main.js"></script>
-<script src="../js/access-request.js"></script>
+<script src="../js/access-request.js?v=2"></script>
 
 <!-- search -->
 

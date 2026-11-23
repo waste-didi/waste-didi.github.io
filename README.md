@@ -24,9 +24,13 @@ pointing to `/hidden-entries/` and preserve this page and stylesheet.
 
 ## Read-only access requests
 
-The public Hidden Entries page has a Request access form. It opens an email draft
-to the same public contact address already shown on the homepage; it does not
-send mail or grant access automatically. After the owner approves a request,
-add that exact ChatGPT email to the existing Sites visitor allowlist, preserving
-all current users. The inventory app grants write access only to the owner and
-Xiaoming; newly invited accounts are read-only by default.
+The public Hidden Entries form submits directly to the dedicated intake service:
+https://filament-access-ddd.dandandandandu.chatgpt.site/
+No mail app or copy/paste is required. D1 stores the requests; only the owner can
+read the inbox at `/admin` after ChatGPT sign-in. The inventory itself retains
+its existing private Sites allowlist.
+
+After reviewing a request, add its exact ChatGPT email in Sites sharing settings
+or ask Codex to do it using the supported Sites access tool. Marking a request
+handled only organizes the inbox and does not grant access. Newly invited
+inventory accounts remain read-only by default.
