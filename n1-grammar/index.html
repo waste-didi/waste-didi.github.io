@@ -49,15 +49,12 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 input[type=search]{flex:1 1 220px;min-width:0;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
 input[type=search]:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .count{color:var(--muted);font-size:13px;white-space:nowrap}
-#bk{width:100%;margin:6px 0 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);font:12px/1.5 ui-monospace,Menlo,monospace;resize:vertical}
-.bkrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .chip{font-size:13px;padding:4px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer}
 .chip[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 16px 14px;min-width:0;display:flex;flex-direction:column;gap:8px}
-.card.done{border-color:var(--ok)}
 .head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .no{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px;min-width:2.2em}
 .ttl{font-size:19px;font-weight:700;color:var(--blue);margin:0;line-height:1.4}
@@ -78,10 +75,6 @@ hr{border:0;border-top:1px dashed var(--line);margin:4px 0}
 .foot a{color:var(--blue);text-decoration:none}
 .foot a:hover{text-decoration:underline}
 .foot .tg{border:0;background:none;color:var(--blue);cursor:pointer;padding:0}
-.cnt{display:flex;gap:6px;align-items:center;margin-left:auto;color:var(--muted)}
-.cnt b{color:var(--fg);font-variant-numeric:tabular-nums}
-.cb{width:26px;height:26px;border:1px solid var(--line);background:var(--surface);border-radius:6px;cursor:pointer;line-height:1;font-size:15px;padding:0}
-.cb:hover{border-color:var(--blue);color:var(--blue)}
 .empty{color:var(--muted);padding:40px 0;text-align:center}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
 .back{margin:0 0 8px;font-size:13px}.back a{color:var(--muted);text-decoration:none}.back a:hover{color:var(--blue)}
@@ -125,13 +118,6 @@ hr{border:0;border-top:1px dashed var(--line);margin:4px 0}
       </tbody>
     </table></div>
     <p class="note" style="margin:0">接续里写"Nの"就是名词后面加「の」，"ナ形＋な"就是ナ形容词后面加「な」，再接这条语法。</p>
-  </details>
-
-  <details class="forms" id="backup">
-    <summary>进度备份：把“看过几遍”搬到别的设备或网址</summary>
-    <p class="note">看过几遍只存在当前浏览器里。在旧页面点“导出”，复制文本框里的内容，到新页面粘贴后点“导入”，每一条会取较大的遍数合并。</p>
-    <textarea id="bk" rows="3" spellcheck="false" aria-label="进度备份文本"></textarea>
-    <div class="bkrow"><button class="btn" id="bkOut" type="button">导出</button><button class="btn" id="bkIn" type="button">导入</button><span class="count" id="bkMsg"></span></div>
   </details>
 
   <div class="bar">
@@ -399,9 +385,6 @@ const strip=s=>s.replace(/\{[^}]*\}/g,'').replace(/\[\[|\]\]/g,'');
 const X={};EXTRA.trim().split('\n').forEach(l=>{const p=l.split('|');X[+p[0]]=[[p[1],p[2]],[p[3],p[4]]]});
 const ITEMS=RAW.trim().split('\n').map(l=>{const p=l.split('|');const n=+p[0];return{n,id:p[1],cat:p[2],t:p[3],conn:p[4],mean:p[5],tip:p[6],exs:[[p[7],p[8]],...(X[n]||[])]}});
 const pad=n=>String(n).padStart(3,'0');
-let CNT={};
-try{CNT=JSON.parse(localStorage.getItem('n1g120-count')||'{}');if(!Object.keys(CNT).length){JSON.parse(localStorage.getItem('n1g120-done')||'[]').forEach(x=>CNT[x]=1)}}catch(e){CNT={}}
-const save=()=>{try{localStorage.setItem('n1g120-count',JSON.stringify(CNT))}catch(e){}};
 const SHOWN=new Set();let showAll=false,cat='all',q='';
 const grid=document.getElementById('grid'),count=document.getElementById('count'),empty=document.getElementById('empty'),chips=document.getElementById('chips'),allBtn=document.getElementById('all');
 function chip(k,label){const b=document.createElement('button');b.className='chip';b.type='button';b.textContent=label;b.setAttribute('aria-pressed',k===cat);b.onclick=()=>{cat=k;[...chips.children].forEach(c=>c.setAttribute('aria-pressed',c===b));render()};chips.appendChild(b)}
@@ -409,31 +392,21 @@ chip('all','全部');Object.entries(CATS).forEach(([k,v])=>chip(k,v));
 function render(){
   const kw=q.trim().toLowerCase();
   const list=ITEMS.filter(i=>(cat==='all'||i.cat===cat)&&(!kw||(i.t+i.conn+i.mean+i.tip+i.exs.map((e,k)=>pad(i.n)+'-'+(k+1)+strip(e[0])+e[1]).join('')).toLowerCase().includes(kw)));
-  grid.innerHTML=list.map(i=>{const show=showAll||SHOWN.has(i.n);return `<article class="card${CNT[i.n]>0?' done':''}${show?' show':''}" id="g${i.n}" data-n="${i.n}">
+  grid.innerHTML=list.map(i=>{const show=showAll||SHOWN.has(i.n);return `<article class="card${show?' show':''}" id="g${i.n}" data-n="${i.n}">
     <div class="head"><span class="no">${pad(i.n)}</span><h2 class="ttl">${i.t}</h2><span class="tag">${CATS[i.cat]}</span></div>
     <div class="f"><b>接续</b><span>${i.conn}</span><b class="zh">意思</b><span class="zh">${i.mean}</span><b>语感</b><span>${i.tip}</span></div>
     <hr>
     ${i.exs.map((e,k)=>`<div class="exr"><span class="eid">${pad(i.n)}-${k+1}</span><div><p class="ex">${ruby(e[0])}</p><p class="tr zh">${e[1]}</p></div></div>`).join('')}
     <div class="foot"><a href="https://www.youtube.com/watch?v=${i.id}&list=PLynCeSdpMqxCBtZzRikWkdbRGS9csjDYT" target="_blank" rel="noopener">看视频 ↗</a>
-    <button class="tg" type="button" data-act="tg">${show?'隐藏中文':'显示中文'}</button>
-    <span class="cnt"><button class="cb" type="button" data-act="dec" aria-label="减一遍">−</button><span>看过 <b>${CNT[i.n]||0}</b> 遍</span><button class="cb" type="button" data-act="inc" aria-label="加一遍">+</button></span></div></article>`}).join('');
+    <button class="tg" type="button" data-act="tg">${show?'隐藏中文':'显示中文'}</button></div></article>`}).join('');
   empty.hidden=list.length>0;
   updCount(list.length);
 }
-function updCount(n){const seen=Object.values(CNT).filter(v=>v>0).length;count.textContent=`${n??grid.children.length} 条 · 已看过 ${seen}/120`}
+function updCount(n){count.textContent=`${n??grid.children.length} 条`}
 function setShow(card,on){const n=+card.dataset.n;on?SHOWN.add(n):SHOWN.delete(n);card.classList.toggle('show',on);card.querySelector('.tg').textContent=on?'隐藏中文':'显示中文'}
-grid.addEventListener('click',e=>{const a=e.target.dataset.act;if(!a)return;const c=e.target.closest('.card'),n=+c.dataset.n;
-  if(a==='tg'){setShow(c,!c.classList.contains('show'));return}
-  const v=Math.max(0,(CNT[n]||0)+(a==='inc'?1:-1));if(v)CNT[n]=v;else delete CNT[n];save();
-  c.querySelector('.cnt b').textContent=v;c.classList.toggle('done',v>0);updCount()});
+grid.addEventListener('click',e=>{if(e.target.dataset.act!=='tg')return;const c=e.target.closest('.card');setShow(c,!c.classList.contains('show'))});
 allBtn.addEventListener('click',()=>{showAll=!showAll;allBtn.textContent=showAll?'全部隐藏中文':'全部显示中文';if(!showAll)SHOWN.clear();grid.querySelectorAll('.card').forEach(c=>setShow(c,showAll))});
 document.getElementById('q').addEventListener('input',e=>{q=e.target.value;render()});
-const bk=document.getElementById('bk'),bkMsg=document.getElementById('bkMsg');
-document.getElementById('bkOut').addEventListener('click',()=>{bk.value=JSON.stringify(CNT);bk.select();
-  try{navigator.clipboard.writeText(bk.value).then(()=>{bkMsg.textContent='已导出并复制'},()=>{bkMsg.textContent='已导出，请手动复制'})}catch(e){bkMsg.textContent='已导出，请手动复制'}});
-document.getElementById('bkIn').addEventListener('click',()=>{try{const o=JSON.parse(bk.value);let k=0;
-  for(const [n,v] of Object.entries(o)){const x=+n,y=Math.floor(+v);if(x>=1&&x<=120&&y>0){CNT[x]=Math.max(CNT[x]||0,y);k++}}
-  if(!k)throw 0;save();render();bkMsg.textContent=`已导入 ${k} 条`}catch(e){bkMsg.textContent='格式不对，请粘贴导出的内容'}});
 render();
 </script>
 
