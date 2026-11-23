@@ -22,15 +22,8 @@ The directory is linked only from the gray footer link across the static site.
 Keep Hidden Entries out of the header and article menus. If regenerating with
 Hexo, retain the footer link to `/hidden-entries/` and preserve this page and stylesheet.
 
-## Read-only access requests
+## Inventory access
 
-The public Hidden Entries form submits directly to the dedicated intake service:
-https://filament-access-ddd.dandandandandu.chatgpt.site/
-No mail app or copy/paste is required. D1 stores the requests; only the owner can
-read the inbox at `/admin` after ChatGPT sign-in. The inventory itself retains
-its existing private Sites allowlist.
-
-After reviewing a request, add its exact ChatGPT email in Sites sharing settings
-or ask Codex to do it using the supported Sites access tool. Marking a request
-handled only organizes the inbox and does not grant access. Newly invited
-inventory accounts remain read-only by default.
+Hidden Entries contains website shortcuts only; it does not collect access requests.
+The inventory website handles sign-in and approved access. Existing permissions
+and its separate approval service are managed independently of this directory.
