@@ -9,7 +9,7 @@
     <meta name="description" content="A small directory of websites and tools I have made.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hidden Entries">
-<meta property="og:url" content="https://waste-didi.github.io/hidden-entries/">
+<meta property="og:url" content="https://ddd.is-a.dev/hidden-entries/">
 <meta property="og:site_name" content="DDD">
 <meta property="og:description" content="A small directory of websites and tools I have made.">
 <meta property="og:locale" content="en_US">
@@ -95,10 +95,32 @@
           <span class="entry-category">FILAMENT HOME</span>
           <span class="entry-title" lang="zh-CN">一卷 · 家里的耗材</span>
           <span class="entry-description" lang="zh-CN">记录 3D 打印耗材、用量状态和作品照片。</span>
-          <span class="entry-access">Sign-in required</span>
+          <span class="entry-access">Invited visitors · Read-only access</span>
         </span>
         <span class="entry-open">Open site <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></span>
       </a>
+      <details class="access-request" id="request-access" lang="zh-CN">
+        <summary>Request access · 申请只读访问</summary>
+        <div class="access-request-body">
+          <h2>看看我们家的打印角</h2>
+          <p>获批后可以查看耗材、颜色照片和作品；不能修改库存或上传内容。请填写你登录 ChatGPT 的邮箱。</p>
+          <form id="access-request-form">
+            <label for="request-name">怎么称呼你 <span>（可选）</span></label>
+            <input id="request-name" name="name" autocomplete="name" maxlength="80">
+            <label for="request-email">ChatGPT 登录邮箱</label>
+            <input id="request-email" name="email" type="email" autocomplete="email" required maxlength="254">
+            <button type="submit">打开邮件发送申请</button>
+          </form>
+          <p class="access-note">这个按钮会打开你的邮件应用，需要你亲自发送。申请不会自动授权；收到回复后，用同一邮箱登录库存网站。</p>
+          <p>收件人：<a href="mailto:0x000ddd@gmail.com">0x000ddd@gmail.com</a></p>
+          <div id="request-email-fallback" hidden>
+            <p role="status">请在邮件应用里确认发送。没有打开邮件应用？也可以复制下面的内容，发到上面的邮箱。</p>
+            <label for="request-email-text">申请内容</label>
+            <textarea id="request-email-text" readonly rows="7"></textarea>
+          </div>
+          <noscript><p>请直接发邮件到上面的地址，注明你的 ChatGPT 登录邮箱，以及希望申请「一卷」只读访问。</p></noscript>
+        </div>
+      </details>
     </li>
   </ul>
   <p class="entries-footnote">A growing collection of small things I use.</p>
@@ -147,6 +169,7 @@
 
 
 <script src="../js/main.js"></script>
+<script src="../js/access-request.js"></script>
 
 <!-- search -->
 
